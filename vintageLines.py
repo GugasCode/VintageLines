@@ -29,8 +29,17 @@ class VintageLinesEventListener(sublime_plugin.EventListener):
 			lines.append(sublime.Region(last_text_point, last_text_point))
 
 		for i in range(start_line, start_line + len(lines)):
-			name = 'linenum' + str(i-start_line)
-			icon = str(int(math.fabs(cur_line - i)))
+			# Current Line with a number
+			if cur_line == i:
+				# got the current line number
+				name = 'linenum' + str(cur_line)
+				if cur_line > 99:
+					icon = str(int(cur_line))
+				else:
+					icon = str(int(0))
+			else:
+				name = 'linenum' + str(i-start_line)
+				icon = str(int(math.fabs(cur_line - i)))
 
 			view.add_regions(name, [lines[i-start_line]], 'linenums', self.icon_path % (sublime.platform(), icon), sublime.HIDDEN)
 
